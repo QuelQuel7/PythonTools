@@ -1,0 +1,39 @@
+set number
+set relativenumber
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set autoindent
+set smartindent
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set clipboard=unnamedplus
+set cursorline
+syntax on 
+set background=dark
+
+set showmode
+nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <C-p> :Files<CR>
+
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+call plug#end()
+
+let NERDTreeShowHidden=1
+let g:fzf_command_prefix = 'Fzf'
+inoremap <silent><expr> <C-Space> coc#refresh()
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<CR>"
+
+let g:coc_global_extensions = [
+			\ 'coc-json',
+			\ 'coc-tsserver',
+			\ 'coc-python',
+			\ 'coc-html',
+			\ 'coc-css',
+			\ ]
