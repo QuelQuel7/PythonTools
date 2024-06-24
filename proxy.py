@@ -27,12 +27,11 @@ def server_loop(local_host, local_port, remote_host, remote_port, receive_first)
 
 def hexdump(src, length=16):
     result = []
-    digits = 4 if isinstance(src, unicode) else 2
     for i in range(0, len(src), length):
         s = src[i:i+length]
-        hexa = ' '.join(["%0*X" % (digits, ord(x)) for x in s])
-        text = ''.join([x if 0x20 <= ord(x) < 0x7F else '.' for x in s])
-        result.append("%04X  %-*s  %s" % (i, length*(digits + 1), hexa, text))
+        hexa = ' '.join([f"{x:02X}" for x in s])
+        text = ''.join([chr(x) if 0x20 <= ord(x) < 0x7F else '.' for x in s])
+        result.append(f"{i:04X}  {hexa:<{length*3}}  {text}")
     print('\n'.join(result))
 
 def receive_from(connection):
@@ -92,6 +91,7 @@ def main():
     if len(sys.argv[1:]) != 5:
         print("Python proxy client. Usage: ")
         print("Usage: ./proxy.py [localhost] [localport] [remotehost] [remoteport] [receive_first]\nExample: ./proxy.py 127.0.0.1 9000 10.12.132.1 9000 True")
+        print("Then use anther teminal to connect to such proxy, for example nc 127.0.0.1 9000 and see if it works!")
         sys.exit(0)
 
     local_host = sys.argv[1]
